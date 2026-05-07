@@ -2,26 +2,100 @@
 
 <span style="color:red">Pré-requisitos: <a href="1-Documentação de Contexto.md"> Documentação de Contexto</a></span>
 
-## Histórias de Usuários
+## Documentação Engenharia de Software I 
 
-<li><a href="/docs/EngSoftware-I/Salvou%20-%20Historias%20Detalhadas.pdf"> Histórias Detalhadas</a></li>
+<li><a href="/docs/EngSoftware-I/Salvou%20-%20Historias%20Detalhadas.pdf"> Histórias de Usuários Detalhadas</a></li>
+<li><a href="/docs/EngSoftware-I/Salvou%20-%20Modelo%20de%20Classes.pdf"> Modelo de Classes</a></li>
+
+## Histórias de Usuários
+| ID   | Especificação da História |
+|------|----------------------------|
+| H1.1 | Como um profissional autônomo, eu posso cadastrar, editar e inativar clientes para manter meus dados organizados e atualizados.         |
+| H1.2 | Como um profissional autônomo, eu posso visualizar o histórico dos clientes e registrar observações para acompanhar o relacionamento.   |
+| H2.1 | Como um profissional autônomo, eu posso registrar vendas selecionando produtos/serviços e vinculando-os a um cliente. *(Nova)*          |
+| H2.2 | Como um profissional autônomo, eu posso cadastrar novos serviços ou produtos com seus respectivos preços. *(Nova)*                      |
+| H3.1 | Como um profissional autônomo, eu posso gerenciar compromissos (agendar, concluir e reagendar) para controlar minhas tarefas.           |
+| H3.2 | Como um profissional autônomo, eu posso visualizar tarefas pendentes e receber lembretes automáticos para não perder prazos importantes |
+| H3.3 | Como um profissional autônomo, eu posso filtrar clientes por diferentes critérios para planejar ações de relacionamento.                |
+| H4.1 |  Como um usuário eu posso realizar login e manter minha sessão ativa para acessar o sistema com segurança.                              |
 
 ## Modelagem de Classes
 
 Lista das classes identificadas e responsabilidades de cada classe:
 
-<li><a href="/docs/EngSoftware-I/Salvou%20-%20Modelo%20de%20Classes.pdf"> Modelo de Classes</a></li>
+| Classe: Cliente   |
+| Responsabilidades | Colaboradores |
+|-------------------|---------------|
+| Armazenar dados cadastrais (nome, CPF, telefone, endereço e status). | HistoricoCliente, Venda |
+| Permitir criação, edição e atualização dos dados. |  |
+| Armazenar e exibir histórico de interações. | HistoricoCliente |
+| Registrar observações sobre o cliente. | Observacao |
+| Alterar status (ativo/inativo). |  |
+| Fornecer dados para filtragens e segmentações. |  |
+
+---
+
+| Classe: Venda   |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Registrar a transação financeira vinculada a um cliente. | Cliente, Servico |
+| Calcular o valor total da venda com base nos itens selecionados. | Servico |
+| Alimentar o histórico do cliente após a finalização. | HistoricoCliente |
+
+---
+
+| Classe: Servico  |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Armazenar a descrição e o preço unitário do item/serviço. | Venda |
+| Permitir a atualização de valores para futuras vendas. | Venda |
+
+---
+
+| Classe: Observacao  |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Registrar texto com anotações referentes ao cliente. | Cliente |
+| Exibir observações no histórico. | HistoricoCliente  |
+
+---
+
+| Classe: Compromisso |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Agendar tarefas com o cliente. | Cliente |
+| Reagendar tarefas e controlar prazos. | Cliente, Lembrete |
+| Informar status (pendente, em andamento, concluído, reagendado). | HistoricoCliente |
+| Gerar lembretes automáticos. | Lembrete  |
+| Alimentar o histórico do cliente quando concluído. | HistoricoCliente |
+
+---
+
+| Classe: Lembrete |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Gerar notificações automáticas para compromissos ou tarefas. | Compromisso |
+| Calcular prazos e horários para alertas. |  |
+| Enviar notificações ao usuário. |  |
+
+---
+
+| Classe: HistoricoCliente |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Registrar vendas, compromissos realizados, anotações e atividades com o cliente. | Venda, Compromisso, Observacao |
+| Exibir cronologia de interações para tomada de decisão. |  |
+| Enviar notificações ao usuário. |  |
+
+---
+
+| Classe: Usuario |
+| Responsabilidades | Colaboradores |
+|---|---|
+| Permitir login e validação de senha. |  |
+| Manter sessão ativa. |  |
+| Verificar regras de segurança. |  |
 
 ## Como as histórias dos usuários se conectam com as classes?
 
-As histórias de usuário presentes no backlog estão diretamente relacionadas ao modelo de classes, pois representam os requisitos funcionais do sistema, enquanto as classes definem como esses requisitos serão implementados na prática. Cada história descreve uma necessidade do usuário, e essa necessidade é traduzida em responsabilidades atribuídas a uma ou mais classes no diagrama.
 
-Por exemplo, as histórias H1.1 e H1.2, que tratam do cadastro, edição, visualização de histórico, registro de observações e inativação de clientes, estão diretamente associadas à classe Cliente e às classes auxiliares HistoricoCliente e Observacao. A classe Cliente é responsável por armazenar e gerenciar os dados cadastrais, enquanto HistoricoCliente organiza as interações ao longo do tempo e Observacao permite registrar anotações específicas. Dessa forma, uma única história pode envolver a colaboração entre várias classes para atender completamente à funcionalidade desejada.
-
-Da mesma forma, as histórias H2.1 e H2.2, relacionadas ao gerenciamento de compromissos e lembretes, estão conectadas principalmente à classe Compromisso. Essa classe concentra responsabilidades como registrar, reagendar e concluir tarefas, além de controlar seus status. A funcionalidade de lembretes, inicialmente modelada como uma classe separada, foi posteriormente incorporada como método, demonstrando uma decisão de refinamento no design sem perder o vínculo com a necessidade descrita na história.
-
-As histórias H3.1 e H3.2, que envolvem filtragem de clientes e geração de relatórios, estão associadas às classes FiltroClientes e Relatorio. Essas classes são responsáveis por processar dados, aplicar critérios de segmentação e gerar informações úteis para tomada de decisão. Assim como no caso dos lembretes, a funcionalidade de filtragem também pode ser incorporada como método, evidenciando ajustes na modelagem.
-
-Por fim, as histórias H4.1 e H4.2, relacionadas à autenticação e segurança do usuário, conectam-se às classes Usuario e Autenticador. A classe Usuario armazena as informações e mantém a sessão, enquanto Autenticador executa a validação de credenciais e gerencia processos como recuperação de senha, separando claramente os dados das regras de segurança.
-
-Portanto, observa-se que as histórias de usuário orientam a definição das responsabilidades das classes, e o modelo de classes garante que todas as funcionalidades descritas sejam contempladas por meio da colaboração entre os elementos do sistema.
