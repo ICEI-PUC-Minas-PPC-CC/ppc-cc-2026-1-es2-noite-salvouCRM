@@ -36,7 +36,8 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-2. Classe: Venda *(Nova)*
+**Classe: Venda *(Nova)***
+
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar a transação financeira vinculada a um cliente. | Cliente, Servico |
@@ -45,7 +46,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-3. Classe: Servico *(Nova)*
+**Classe: Servico *(Nova)***
 | Responsabilidades | Colaboradores |
 |---|---|
 | Armazenar a descrição e o preço unitário do item/serviço. | Venda |
@@ -53,7 +54,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-4. Classe: Observacao
+**Classe: Observacao**
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar texto com anotações referentes ao cliente. | Cliente |
@@ -61,7 +62,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-5. Classe: Compromisso
+**Classe: Compromisso**
 | Responsabilidades | Colaboradores |
 |---|---|
 | Agendar tarefas com o cliente. | Cliente |
@@ -72,7 +73,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-6. Classe: Lembrete
+**Classe: Lembrete**
 | Responsabilidades | Colaboradores |
 |---|---|
 | Gerar notificações automáticas para compromissos ou tarefas. | Compromisso |
@@ -81,7 +82,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-7. Classe: HistoricoCliente
+**Classe: HistoricoCliente**
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar vendas, compromissos realizados, anotações e atividades com o cliente. | Venda, Compromisso, Observacao |
@@ -89,7 +90,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-8. Classe: Usuario
+**Classe: Usuario**
 | Responsabilidades | Colaboradores |
 |---|---|
 | Permitir login e validação de senha. |  |
