@@ -24,6 +24,7 @@
 Lista das classes identificadas e responsabilidades de cada classe:
 
 1. Classe: Cliente
+   
 | Responsabilidades | Colaboradores |
 |-------------------|---------------|
 | Armazenar dados cadastrais (nome, CPF, telefone, endereço e status). | HistoricoCliente, Venda |
