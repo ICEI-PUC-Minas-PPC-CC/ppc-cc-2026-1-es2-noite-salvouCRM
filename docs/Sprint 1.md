@@ -23,19 +23,19 @@
 
 Lista das classes identificadas e responsabilidades de cada classe:
 
-| Classe: Cliente   |
+1. Classe: Cliente
 | Responsabilidades | Colaboradores |
 |-------------------|---------------|
 | Armazenar dados cadastrais (nome, CPF, telefone, endereço e status). | HistoricoCliente, Venda |
 | Permitir criação, edição e atualização dos dados. |  |
 | Armazenar e exibir histórico de interações. | HistoricoCliente |
-| Registrar observações sobre o cliente. | Observacao |
+| Associar observações ao cliente. | Observacao |
 | Alterar status (ativo/inativo). |  |
 | Fornecer dados para filtragens e segmentações. |  |
 
 ---
 
-| Classe: Venda   |
+2. Classe: Venda *(Nova)*
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar a transação financeira vinculada a um cliente. | Cliente, Servico |
@@ -44,7 +44,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-| Classe: Servico  |
+3. Classe: Servico *(Nova)*
 | Responsabilidades | Colaboradores |
 |---|---|
 | Armazenar a descrição e o preço unitário do item/serviço. | Venda |
@@ -52,7 +52,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-| Classe: Observacao  |
+4. Classe: Observacao
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar texto com anotações referentes ao cliente. | Cliente |
@@ -60,18 +60,18 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-| Classe: Compromisso |
+5. Classe: Compromisso
 | Responsabilidades | Colaboradores |
 |---|---|
 | Agendar tarefas com o cliente. | Cliente |
 | Reagendar tarefas e controlar prazos. | Cliente, Lembrete |
 | Informar status (pendente, em andamento, concluído, reagendado). | HistoricoCliente |
-| Gerar lembretes automáticos. | Lembrete  |
+| Associar lembretes automáticos ao compromisso. | Lembrete |
 | Alimentar o histórico do cliente quando concluído. | HistoricoCliente |
 
 ---
 
-| Classe: Lembrete |
+6. Classe: Lembrete
 | Responsabilidades | Colaboradores |
 |---|---|
 | Gerar notificações automáticas para compromissos ou tarefas. | Compromisso |
@@ -80,16 +80,15 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ---
 
-| Classe: HistoricoCliente |
+7. Classe: HistoricoCliente
 | Responsabilidades | Colaboradores |
 |---|---|
 | Registrar vendas, compromissos realizados, anotações e atividades com o cliente. | Venda, Compromisso, Observacao |
 | Exibir cronologia de interações para tomada de decisão. |  |
-| Enviar notificações ao usuário. |  |
 
 ---
 
-| Classe: Usuario |
+8. Classe: Usuario
 | Responsabilidades | Colaboradores |
 |---|---|
 | Permitir login e validação de senha. |  |
@@ -98,4 +97,20 @@ Lista das classes identificadas e responsabilidades de cada classe:
 
 ## Como as histórias dos usuários se conectam com as classes?
 
+As histórias de usuários estão diretamente conectadas às classes do sistema, pois cada funcionalidade descrita nas histórias é implementada pelas responsabilidades atribuídas às classes na modelagem.
 
+A história H1.1, que descreve o cadastro, edição e inativação de clientes, relaciona-se principalmente à classe Cliente. Essa classe é responsável por armazenar os dados cadastrais do cliente, permitir a criação e atualização dessas informações e controlar o status ativo ou inativo.
+
+A história H1.2, referente à visualização do histórico e ao registro de observações, conecta-se às classes HistoricoCliente, Observacao e Cliente. A classe HistoricoCliente mantém a cronologia de interações realizadas com o cliente, enquanto a classe Observacao registra anotações importantes. A classe Cliente faz a ligação dessas informações ao cliente correspondente.
+
+A história H2.1, relacionada ao registro de vendas, envolve as classes Venda, Cliente, Servico e HistoricoCliente. A classe Venda registra a transação financeira e associa os serviços escolhidos a um cliente específico. A classe Servico fornece os produtos ou serviços e seus respectivos preços, enquanto o HistoricoCliente registra a venda realizada como parte do histórico de relacionamento.
+
+A história H2.2, que trata do cadastro de serviços ou produtos, está associada à classe Servico. Essa classe é responsável por armazenar a descrição e o preço dos serviços, além de permitir futuras atualizações de valores.
+
+A história H3.1, voltada ao gerenciamento de compromissos, conecta-se principalmente à classe Compromisso. Essa classe permite agendar, reagendar e concluir tarefas, além de controlar o status das atividades. A classe Lembrete complementa essa funcionalidade gerando notificações automáticas, enquanto a classe HistoricoCliente registra os compromissos concluídos.
+
+A história H3.2, relacionada à visualização de tarefas pendentes e lembretes automáticos, está ligada às classes Compromisso e Lembrete. A classe Compromisso controla os estados das tarefas, e a classe Lembrete calcula prazos e envia notificações ao usuário para evitar atrasos.
+
+A história H3.3, sobre filtragem de clientes, relaciona-se à classe Cliente, pois ela disponibiliza informações cadastrais e status que podem ser utilizados em segmentações e filtros.
+
+Por fim, a história H4.1, referente ao login e à manutenção da sessão ativa, conecta-se à classe Usuario. Essa classe é responsável pela autenticação do sistema, validação de senha, controle da sessão ativa e aplicação das regras de segurança necessárias para acesso ao sistema.
