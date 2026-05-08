@@ -23,7 +23,7 @@
 
 Lista das classes identificadas e responsabilidades de cada classe:
 
-1. Classe: Cliente
+**Classe: Cliente**
    
 | Responsabilidades | Colaboradores |
 |-------------------|---------------|
