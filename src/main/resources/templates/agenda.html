@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salvou - Minha Agenda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef2fb;
+            --surface: #ffffff;
+            --primary: #0d6efd;
+            --secondary: #495057;
+            --success: #198754;
+            --danger: #dc3545;
+            --muted: #6c757d;
+            --border: rgba(13,110,253,0.12);
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--secondary);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .agenda-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+        .page-header h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin: 0;
+        }
+        .btn-voltar {
+            background-color: var(--muted);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+        .btn-voltar:hover {
+            background-color: #5a6268;
+        }
+        .form-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 16px 40px rgba(74, 93, 169, 0.12);
+            margin-bottom: 28px;
+        }
+        .form-card h3 {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 18px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            border: 1px solid #dfe3ee;
+            padding: 12px 14px;
+            font-size: 0.98rem;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.16);
+        }
+        .btn-salvar {
+            background-color: var(--success);
+            border: none;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+        }
+        .btn-salvar:hover {
+            background-color: #157347;
+        }
+        .agenda-list-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(74, 93, 169, 0.12);
+        }
+        .agenda-list-card h3 {
+            color: var(--secondary);
+            font-weight: 700;
+            padding: 22px 26px;
+            margin: 0;
+            background-color: #f8f9ff;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .agenda-items {
+            padding: 22px 26px 28px;
+        }
+        .agenda-item {
+            background: #f8f9ff;
+            border-left: 4px solid var(--primary);
+            padding: 18px;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .agenda-item.concluido {
+            background: #e9f7ef;
+            border-left-color: var(--success);
+            opacity: 0.85;
+        }
+        .agenda-info {
+            flex: 1;
+            min-width: 220px;
+        }
+        .agenda-descricao {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 6px;
+        }
+        .agenda-concluido .agenda-descricao {
+            text-decoration: line-through;
+            color: #7a869a;
+        }
+        .agenda-tipo {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        .agenda-tipo.lembrete { background-color: #f59f00; }
+        .agenda-tipo.pagamento { background-color: #6f42c1; }
+        .agenda-data {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        .agenda-observacoes {
+            color: #6c757d;
+            font-size: 0.92rem;
+            margin-top: 8px;
+        }
+        .agenda-acoes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-concluir,
+        .btn-deletar {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            min-width: 120px;
+        }
+        .btn-concluir {
+            background-color: var(--success);
+            color: white;
+        }
+        .btn-concluir:hover { background-color: #157347; }
+        .btn-deletar {
+            background-color: var(--danger);
+            color: white;
+        }
+        .btn-deletar:hover { background-color: #bb2d3b; }
+        .vazio {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        .alert { border-radius: 12px; }
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; align-items: flex-start; }
+            .agenda-item { flex-direction: column; align-items: stretch; }
+            .agenda-acoes { width: 100%; }
+            .btn-concluir, .btn-deletar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="agenda-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Minha Agenda</h1>
+            <a href="/" class="btn btn-voltar">Voltar ao Menu</a>
+        </div>
+
+        <!-- Mensagens de Sucesso/Erro -->
+        <div th:if="${mensagemSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>✅ Sucesso!</strong> <span th:text="${mensagemSucesso}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${mensagemErro}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>❌ Erro!</strong> <span th:text="${mensagemErro}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Formulário para adicionar novo compromisso -->
+        <div class="form-card">
+            <h3>➕ Adicionar Novo Compromisso</h3>
+            <form method="POST" action="/agenda/salvar">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="descricao" class="form-label">O que você precisa fazer? *</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" 
+                               placeholder="Ex: Ligar para cliente, Receber pagamento..." required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label">Tipo de Compromisso *</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="">-- Selecione --</option>
+                            <option value="atendimento">Atendimento a Cliente</option>
+                            <option value="lembrete">Lembrete</option>
+                            <option value="pagamento">Pagamento a Fornecedor</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="dataAgenda" class="form-label">Data do Compromisso *</label>
+                        <input type="date" class="form-control" id="dataAgenda" name="dataAgenda" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="clienteId" class="form-label">Cliente (opcional)</label>
+                        <select class="form-select" id="clienteId" name="clienteId">
+                            <option value="">-- Nenhum cliente --</option>
+                            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" 
+                                    th:text="${cliente.nome}">Cliente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="observacoes" class="form-label">Notas/Observações (opcional)</label>
+                    <textarea class="form-control" id="observacoes" name="observacoes" rows="3" 
+                              placeholder="Adicione mais detalhes se necessário..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-salvar">Salvar Compromisso</button>
+            </form>
+        </div>
+
+        <!-- Lista de Compromissos Não Concluídos -->
+        <div class="agenda-list-card">
+            <h3> Compromissos Pendentes</h3>
+            <div class="agenda-items">
+                <div th:if="${agendaNaoConcluida.isEmpty()}" class="vazio">
+                    <p> Nenhum compromisso pendente! Você está em dia.</p>
+                </div>
+
+                <div th:each="item : ${agendaNaoConcluida}" class="agenda-item">
+                    <div class="agenda-info">
+                        <div class="agenda-descricao" th:text="${item.descricao}">Descrição</div>
+                        <div>
+                            <span class="agenda-tipo" th:classappend="${'agenda-tipo.' + item.tipo}" 
+                                  th:text="${item.tipo}">tipo</span>
+                            <span class="agenda-data" th:text="'📅 ' + ${#dates.format(item.dataAgenda, 'dd/MM/yyyy')}">
+                                Data
+                            </span>
+                            <div class="agenda-observacoes" th:if="${item.observacoes}" 
+                                 th:text="'Nota: ' + ${item.observacoes}"></div>
+                            <div class="agenda-observacoes" th:if="${item.cliente}" 
+                                 th:text="'👤 Cliente: ' + ${item.cliente.nome}"></div>
+                        </div>
+                    </div>
+                    <div class="agenda-acoes">
+                        <form method="POST" th:action="@{/agenda/concluir/{id}(id=${item.id})}" style="flex: 1;">
+                            <button type="submit" class="btn-concluir" style="width: 100%;">✓ Concluir</button>
+                        </form>
+                        <form method="POST" th:action="@{/agenda/deletar/{id}(id=${item.id})}" 
+                              onsubmit="return confirm('Tem certeza que deseja remover?');" style="flex: 1;">
+                            <button type="submit" class="btn-deletar" style="width: 100%;">🗑️ Remover</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Define a data mínima como hoje
+        document.getElementById('dataAgenda').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

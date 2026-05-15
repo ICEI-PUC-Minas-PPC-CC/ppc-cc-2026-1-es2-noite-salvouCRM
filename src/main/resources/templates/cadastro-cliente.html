@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvou - Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef2fb;
+            --surface: #ffffff;
+            --primary: #0d6efd;
+            --secondary: #495057;
+            --success: #198754;
+            --border: rgba(13,110,253,0.12);
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--secondary);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .card { border-radius: 15px; border: none; background: var(--surface); }
+        .text-primary { color: var(--primary) !important; }
+        .form-label { color: var(--secondary); }
+        .btn-primary { background-color: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                    <h2 class="text-primary fw-bold m-0">Novo Cliente</h2>
+                    <a href="/clientes" class="btn btn-outline-secondary btn-sm">Cancelar</a>
+                </div>
+
+                <div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+                    <span th:text="${mensagemErro}"></span>
+                </div>
+
+
+                <form th:action="@{/salvar}" th:object="${cliente}" method="post">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">Nome Completo *</label>
+                            <input type="text" th:field="*{nome}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">CPF</label>
+                            <input type="text" th:field="*{cpf}" class="form-control" placeholder="000.000.000-00" maxlength="14" id="cpf">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Telefone</label>
+                            <input type="text" th:field="*{telefone}" class="form-control" placeholder="(35) 90000-0000" maxlength="15" id="telefone">
+                        </div>
+
+                        <div class="border-top my-3 pt-3">
+                            <h6 class="text-muted">Informações Opcionais</h6>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">E-mail</label>
+                            <input type="email" th:field="*{email}" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Data de Nascimento</label>
+                            <input type="date" th:field="*{dataNascimento}" class="form-control">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" th:field="*{endereco}" class="form-control">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow mt-3">CADASTRAR CLIENTE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const inputTelefone = document.getElementById('telefone');
+    const inputCPF = document.getElementById('cpf');
+
+    inputTelefone.addEventListener('input', (e) => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+    inputCPF.addEventListener('input', (e) => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+        e.target.value = x[1] + (x[2] ? '.' + x[2] : '') + (x[3] ? '.' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+    });
+</script>
+</body>
+</html>
+
+

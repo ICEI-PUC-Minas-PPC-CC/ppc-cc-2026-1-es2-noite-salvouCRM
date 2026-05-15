@@ -1,0 +1,235 @@
+:root {
+    --bg: #eef2fb;
+    --surface: #ffffff;
+    --primary: #0d6efd;
+    --primary-dark: #0b5ed7;
+    --success: #198754;
+    --success-dark: #157347;
+    --muted: #6c757d;
+    --text: #343a40;
+    --border: rgba(13, 110, 253, 0.15);
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.container, .container-home, .agenda-container {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.card, .app-card {
+    background: var(--surface);
+    border: 1px solid rgba(13, 110, 253, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(32, 42, 71, 0.08);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: var(--success-dark);
+    border-color: var(--success-dark);
+}
+
+.btn-outline-secondary {
+    color: var(--text);
+    border-color: rgba(52, 58, 64, 0.16);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.btn-voltar,
+.btn-salvar,
+.btn-concluir,
+.btn-deletar {
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.btn-salvar,
+.btn-concluir,
+.btn-deletar {
+    min-width: 140px;
+}
+
+.form-control,
+.form-select,
+.input-group-text {
+    border-radius: 12px;
+    border: 1px solid #dfe3ee;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.16rem rgba(13, 110, 253, 0.16);
+    border-color: var(--primary);
+}
+
+.app-header {
+    margin-bottom: 32px;
+}
+
+.app-title {
+    font-size: 2.7rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    margin: 0;
+    color: var(--primary);
+}
+
+.app-subtitle {
+    margin-top: 10px;
+    max-width: 720px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text);
+}
+
+.table-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--surface);
+}
+
+.nome-link {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+.nome-link:hover {
+    text-decoration: underline;
+}
+
+.menu-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.menu-card {
+    display: block;
+    padding: 28px;
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid rgba(13, 110, 253, 0.1);
+    box-shadow: 0 16px 40px rgba(32, 42, 71, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: var(--text);
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 60px rgba(32, 42, 71, 0.12);
+}
+
+.menu-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.menu-card p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.menu-card.border-primary { border-top: 4px solid var(--primary); }
+.menu-card.border-success { border-top: 4px solid var(--success); }
+.menu-card.border-muted { border-top: 4px solid #adb5bd; }
+
+.profile-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1.3fr 0.9fr;
+}
+
+.profile-card {
+    padding: 28px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-row strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+}
+
+.profile-row span {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.profile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-list li {
+    margin-bottom: 12px;
+}
+
+.profile-card h3 {
+    margin-top: 0;
+}
+
+.alert {
+    border-radius: 12px;
+}
+
+@media (max-width: 992px) {
+    .profile-grid { grid-template-columns: 1fr; }
+}
