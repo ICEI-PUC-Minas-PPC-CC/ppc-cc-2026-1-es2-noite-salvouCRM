@@ -85,7 +85,7 @@ Lista das classes identificadas e responsabilidades de cada classe:
 **Classe: HistoricoCliente**
 | Responsabilidades | Colaboradores |
 |---|---|
-| Registrar vendas, compromissos realizados, anotações e atividades com o cliente. | Venda, Compromisso, Observacao |
+| Registrar vendas, compromissos realizados, anotações e atividades com o cliente. | Cliente, Venda, Compromisso, Observacao |
 | Exibir cronologia de interações para tomada de decisão. |  |
 
 ---
