@@ -4,8 +4,7 @@
 
 ## Diagramas de Classes
 
-
-<li><a href="/docs/EngSoftware-I/Salvou%20-%20Modelo%20de%20Classes.pdf"> Diagrama de Classes</a></li>
+<li><a href="docs/img/diagrama_uml%20(2).jpg"> Diagrama de Classes</a></li>
 
 ## Explicação dos Relacionamentos e Justificativa das Decisões
 
