@@ -11,7 +11,7 @@
 
 O diagrama foi organizado com a classe Cliente como elemento central, pois a maioria das funcionalidades do sistema depende do cadastro e do acompanhamento dos clientes. A partir dela, são conectadas as classes responsáveis por vendas, observações, compromissos e histórico.
 
-Cliente e Venda
+- Cliente e Venda
 
 Um Cliente pode possuir várias Vendas, mas cada Venda pertence a apenas um Cliente.
 
@@ -63,7 +63,7 @@ Compromisso 1 -------- 1 Lembrete
 
 Uma alternativa possível seria permitir 0..* Lembretes por compromisso, caso o sistema aceite mais de um alerta para a mesma tarefa.
 
-Cliente e HistoricoCliente
+- Cliente e HistoricoCliente
 
 Um Cliente pode possuir vários registros em HistoricoCliente, enquanto cada registro de histórico pertence a apenas um cliente.
 
@@ -83,7 +83,7 @@ Uma venda finalizada, uma observação criada ou um compromisso concluído podem
 
 Essa decisão foi tomada para permitir uma visão consolidada da relação com o cliente.
 
-Usuario
+- Usuario
 
 A classe Usuario representa quem acessa o sistema. Ela possui dados de autenticação, como email, senha e sessão ativa.
 
