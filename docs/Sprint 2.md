@@ -4,7 +4,7 @@
 
 ## Diagramas de Classes
 
-<li><a href="docs/img/diagramaok.jpg"> Diagrama de Classes</a></li>
+<li><a href="docs/img/diagramaok.jpg">Diagrama de Classes</a></li>
 
 ## Explicação dos Relacionamentos e Justificativa das Decisões
 
