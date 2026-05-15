@@ -24,7 +24,7 @@ A relação entre Venda e Servico foi modelada por meio da classe intermediária
 Isso é importante porque uma venda pode conter vários serviços, e um mesmo serviço pode aparecer em várias vendas diferentes. Além disso, VendaServico permite armazenar dados específicos daquela venda, como quantidade e valor unitário no momento da transação.
 
 Multiplicidade:
-Venda 1 -------- 0..* VendaServico
+Venda 1 --------- 0..* VendaServico
 Servico 1 -------- 0..* VendaServico
 
 Essa escolha evita duplicação de dados e representa corretamente uma relação muitos-para-muitos.
