@@ -4,6 +4,11 @@
 
 ## Diagramas de Classes
 
+
+<li><a href="/docs/EngSoftware-I/Salvou%20-%20Modelo%20de%20Classes.pdf"> Diagrama de Classes</a></li>
+
+## Explicação dos Relacionamentos e Justificativa das Decisões
+
 Explicação dos relacionamentos do diagrama
 
 O diagrama foi organizado com a classe Cliente como elemento central, pois a maioria das funcionalidades do sistema depende do cadastro e do acompanhamento dos clientes. A partir dela, são conectadas as classes responsáveis por vendas, observações, compromissos e histórico.
@@ -93,9 +98,5 @@ Justificativa geral das decisões
 O diagrama separa bem as responsabilidades de cada classe. Cliente concentra os dados cadastrais, Venda registra transações, Servico representa os itens vendidos, Compromisso controla agendamentos, Lembrete gera alertas, Observacao registra anotações e HistoricoCliente consolida as interações.
 
 Essa estrutura reduz duplicação, melhora a manutenção do sistema e facilita futuras expansões, como relatórios, filtros, notificações e acompanhamento do relacionamento com cada cliente.
-
-<li><a href="/docs/EngSoftware-I/Salvou%20-%20Modelo%20de%20Classes.pdf"> Diagrama de Classes</a></li>
-
-## Explicação dos Relacionamentos e Justificativa das Decisões
 
 
