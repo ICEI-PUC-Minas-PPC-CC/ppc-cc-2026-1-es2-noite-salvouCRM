@@ -9,8 +9,6 @@
 
 ## Explicação dos Relacionamentos e Justificativa das Decisões
 
-Explicação dos relacionamentos do diagrama
-
 O diagrama foi organizado com a classe Cliente como elemento central, pois a maioria das funcionalidades do sistema depende do cadastro e do acompanhamento dos clientes. A partir dela, são conectadas as classes responsáveis por vendas, observações, compromissos e histórico.
 
 Cliente e Venda
