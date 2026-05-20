@@ -32,15 +32,9 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 <li><a href="docs/Salvou%20-%20Warmup.pdf"> Salvou - Warmup</a></li>
 <li><a href="docs/Sprint 1.md"> Sprint 1 - Análise dos Requisitos e Identificação das Classes</a></li>
 <li><a href="docs/Sprint 2.md"> Sprint 2 - Modelagem de Classes e Relacionamentos</a></li>
-<li><a href="docs/05-Arquitetura da Solução.md"> Arquitetura da Solução</a></li>
-<li><a href="docs/06-Template Padrão da Aplicação.md"> Template Padrão da Aplicação</a></li>
-<li><a href="docs/07-Programação de Funcionalidades.md"> Programação de Funcionalidades</a></li>
-<li><a href="docs/08-Plano de Testes de Software.md"> Plano de Testes de Software</a></li>
-<li><a href="docs/09-Registro de Testes de Software.md"> Registro de Testes de Software</a></li>
-<li><a href="docs/10-Plano de Testes de Usabilidade.md"> Plano de Testes de Usabilidade</a></li>
-<li><a href="docs/11-Registro de Testes de Usabilidade.md"> Registro de Testes de Usabilidade</a></li>
-<li><a href="docs/12-Apresentação do Projeto.md"> Apresentação do Projeto</a></li>
-<li><a href="docs/13-Referências.md"> Referências</a></li>
+<li><a href="docs/Sprint 3.md"> Sprint 3 - Definição da Arquitetura do Sistema</a></li>
+<li><a href="docs/Sprint 4.md"> Sprint 4 - Organização, Integração e Planejamento do MVP</a></li>
+<li><a href="docs/Sprint 5.md"> Sprint 5 - Implementação do MVP</a></li>
 </ol>
 
 # Código
