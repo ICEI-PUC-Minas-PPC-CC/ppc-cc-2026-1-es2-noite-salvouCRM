@@ -5,14 +5,13 @@
 
 
 ## Descrição da Arquitetura
-1.1
-Descrição e Justificativa da Arquitetura
+**1.1 Descrição e Justificativa da Arquitetura**
 O sistema Salvou adota a Arquitetura em Camadas (Layered Architecture) aco-
 plada ao padrão de inversão de controle fornecido pelo ecossistema Spring Boot. A se-
 paração clara entre as regras de representação visual, lógica de negócios e persistência de
 dados garante que o sistema seja altamente coeso e fracamente acoplado.
-1.1.1
-Justificativas Técnicas
+
+_1.1.1 Justificativas Técnicas_
 • Abstração da Camada de Dados (JPA/Hibernate): Toda a comunicação com
 o banco de dados relacional é feita via mapeamento objeto-relacional (ORM). Isso
 significa que as regras de persistência se apoiam em interfaces orientadas a objetos,
@@ -23,26 +22,22 @@ ou as consultas de persistência (ClienteRepository).
 
 ## Diagrama ou Representação da Estrutura
 
-1.2
-Organização do Sistema e Responsabilidades
+**1.2 Organização do Sistema e Responsabilidades**
 Tabela 1.1: Responsabilidade Primária por Componente
-Camada / Componente
-Responsabilidade Primária
-Model / Entity (Cliente.java)
-Mapear os atributos relacionais e regras intrı́nsecas ao do
-Repository (ClienteRepository.java) Abstrair operações de persistência e CRUD via JPA.
-Controller (ClienteController.java) Interceptar rotas HTTP e gerenciar o fluxo de dados do
+| Camada / Componente | Responsabilidade Primária |
+|---------------------|---------------------------|
+| **Model / Entity (Cliente.java)** | Mapear os atributos relacionais e as regras intrínsecas do domínio da entidade Cliente. |
+| **Repository (ClienteRepository.java)** | Abstrair operações de persistência e CRUD utilizando JPA. |
+| **Controller (ClienteController.java)** | Interceptar rotas HTTP e gerenciar o fluxo de dados da aplicação. |
 
 ## Explicação da Comunicação Entre os Componentes
 
-1.3 Comunicação entre Componentes e Padrão REST
-1.3.1
-Comunicação Interna (Injeção de Dependência)
+**1.3 Comunicação entre Componentes e Padrão REST**
+*1.3.1 Comunicação Interna (Injeção de Dependência)*
 As camadas se comunicam através de desacoplamento gerenciado pelo Spring Contai-
 ner. Utilizando a anotação @Autowired, os controladores obtêm instâncias ativas dos
 repositórios sem a necessidade de acoplamento rı́gido via operador new.
-1.3.2
-Comunicação Externa (Hı́brida: MVC e REST)
+*1.3.2 Comunicação Externa (Hı́brida: MVC e REST)*
 O sistema opera utilizando requisições sı́ncronas para carregar as telas através do Thyme-
 leaf e, concorrentemente, expõe rotas assı́ncronas baseadas nas anotações @ResponseBody
 e @RequestBody para comunicação direta via objetos textuais estruturados em JSON
