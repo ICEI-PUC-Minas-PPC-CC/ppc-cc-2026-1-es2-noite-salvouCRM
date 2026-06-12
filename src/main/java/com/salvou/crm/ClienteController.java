@@ -2,7 +2,7 @@ package com.salvou.crm;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller; // TEM QUE SER ESTE
+import org.springframework.stereotype.Controller; 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,7 +20,7 @@ public class ClienteController {
     // 1. Abre a página do formulário
     @GetMapping("/novo")
     public String abrirFormulario(Model model) {
-        model.addAttribute("cliente", new Cliente()); // Se não tiver isso, o th:object="${cliente}" falha
+        model.addAttribute("cliente", new Cliente());
         return "cadastro-cliente";
     }
 
@@ -54,8 +54,7 @@ public class ClienteController {
     public String listarClientes(Model model) {
         List<Cliente> clientes = repository.findAll();
 
-        // Se você tiver um campo 'totalGasto' na classe Cliente,
-        // você pode calcular aqui ou deixar que o JPA gerencie.
+      
         model.addAttribute("clientes", clientes);
         return "lista-clientes";
     }
@@ -64,7 +63,7 @@ public class ClienteController {
     public String mostrarPerfil(@PathVariable Long id, Model model) {
         Cliente cliente = repository.findById(id).orElse(null);
         model.addAttribute("cliente", cliente);
-        return "perfil-cliente"; // Nome do novo HTML que criaremos
+        return "perfil-cliente"; 
     }
 
 }

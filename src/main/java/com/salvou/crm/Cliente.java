@@ -19,7 +19,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Venda> vendas;
     private String email;
-    private LocalDate dataNascimento; // Importe java.time.LocalDate
+    private LocalDate dataNascimento;
 
 
 
@@ -35,8 +35,7 @@ public class Cliente {
         this.nome = nome;
     }
 
-    // --- GETTERS E SETTERS (Essenciais para a automação) ---
-    // Dica: No IntelliJ, use Alt+Insert -> Getter and Setter para gerar todos de uma vez
+    // --- GETTERS E SETTERS (Essenciais para a automação)
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -75,7 +74,6 @@ public class Cliente {
         if(valor > 0){
             this.valorUltimaCompra = valor;
             this.ultimoServico = servico;
-            // Remova a linha "this.totalCompras += valor;" daqui
             System.out.println("Sucesso: Compra de R$" + valor + " registrada para " + nome);
         }
     }
