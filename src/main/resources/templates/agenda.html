@@ -279,7 +279,7 @@
                         <div>
                             <span class="agenda-tipo" th:classappend="${'agenda-tipo.' + item.tipo}" 
                                   th:text="${item.tipo}">tipo</span>
-                            <span class="agenda-data" th:text="'📅 ' + ${#dates.format(item.dataAgenda, 'dd/MM/yyyy')}">
+                            <span class="agenda-data" th:text="'📅 ' + ${item.dataFormatada}">
                                 Data
                             </span>
                             <div class="agenda-observacoes" th:if="${item.observacoes}" 

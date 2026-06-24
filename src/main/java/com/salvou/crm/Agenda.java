@@ -3,6 +3,7 @@ package com.salvou.crm;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Agenda {
@@ -77,6 +78,14 @@ public class Agenda {
 
     public void setDataAgenda(LocalDate dataAgenda) {
         this.dataAgenda = dataAgenda;
+    }
+
+    @Transient
+    public String getDataFormatada() {
+        if (dataAgenda == null) {
+            return "";
+        }
+        return dataAgenda.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public LocalDateTime getDataCriacao() {
