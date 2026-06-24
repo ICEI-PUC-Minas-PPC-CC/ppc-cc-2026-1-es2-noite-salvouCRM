@@ -184,8 +184,3 @@ http://localhost:8080/
 
 > O banco H2 fica salvo em `./data/salvouDB`, preservando os dados entre execuções.
 > Console do banco disponível em `http://localhost:8080/h2-console`.
-
-
-## MVP Funcional
-
-## Evidênvia do Funcionamento
