@@ -9,7 +9,7 @@
 **Projeto:** Salvou CRM
 **Disciplina:** Engenharia de Software II
 **Repositório de código:** https://github.com/llagogabriel/salvou-crm (branch `Verificações`)
-**Vídeo de demonstração:** _[colar aqui o link do vídeo]_
+**Vídeo de demonstração:** https://youtu.be/eiR7Tdm-rd4
 
 ---
 
