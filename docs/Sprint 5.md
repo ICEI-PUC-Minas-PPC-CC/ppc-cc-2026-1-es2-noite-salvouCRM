@@ -172,7 +172,7 @@ uma tabela** e **cada atributo vira uma coluna**.
 **Forma recomendada (Windows, sem IDE):** na raiz do projeto, dê dois cliques em
 `iniciar-app.cmd`. Ele compila e sobe o servidor.
 
-**Pela IDE (IntelliJ ou VS Code):** abra `SalvouApplication.java` e clique em ▶ Run.
+**Pela IDE (IntelliJ ou VS Code):** abra `SalvouApplication.java` e clique em Run.
 
 Em qualquer forma, aguarde as mensagens `Started SalvouApplication in X seconds` e
 `Tomcat started on port 8080`. Depois acesse:
