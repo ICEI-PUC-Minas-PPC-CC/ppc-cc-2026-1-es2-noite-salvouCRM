@@ -1,0 +1,175 @@
+\documentclass[12pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Pacotes
+% ----------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% ----------------------------------------------------------------------
+% Aparência
+% ----------------------------------------------------------------------
+\definecolor{azul}{RGB}{13,110,253}
+\titleformat{\section}{\large\bfseries\color{azul}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% ----------------------------------------------------------------------
+% Título
+% ----------------------------------------------------------------------
+\title{\textbf{Sprint 5 --- Relação entre Implementação,\\ Arquitetura e Modelagem}\\[4pt]
+\large Salvou CRM}
+\author{Engenharia de Software II}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{flushleft}
+\textbf{Projeto:} Salvou CRM \\
+\textbf{Repositório:} \url{https://github.com/llagogabriel/salvou-crm} \\
+\textbf{Branch:} \texttt{Verificações}
+\end{flushleft}
+
+\hrulefill
+
+% ----------------------------------------------------------------------
+\section{Arquitetura adotada}
+
+O Salvou CRM segue uma \textbf{arquitetura em camadas} baseada no padrão
+\textbf{MVC (Model--View--Controller)}, implementada com o \textbf{Spring Boot}.
+A separação de responsabilidades em camadas é o que mantém o código organizado e
+coerente com a arquitetura planejada nas sprints anteriores.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Camada} & \textbf{Responsabilidade / Onde está no código} \\
+\midrule
+Apresentação (View) & Telas que o usuário vê e onde digita os dados --- templates
+Thymeleaf em \code{resources/templates/} (\code{home.html}, \code{lista-clientes.html},
+\code{cadastro-cliente.html}, \code{perfil-cliente.html}, \code{venda.html},
+\code{agenda.html}) + Bootstrap/CSS. \\
+Controle (Controller) & Recebe as requisições HTTP, orquestra a lógica e devolve a
+tela --- \code{HomeController}, \code{ClienteController}, \code{VendaController},
+\code{AgendaController}. \\
+Modelo / Domínio (Model) & Representa as entidades do negócio --- \code{Cliente},
+\code{Venda}, \code{Servico}, \code{Agenda}. \\
+Persistência (Repository) & Acesso e gravação no banco --- \code{ClienteRepository},
+\code{VendaRepository}, \code{ServicoRepository}, \code{AgendaRepository}. \\
+Banco de dados & Armazenamento físico --- banco \textbf{H2} em arquivo
+(\code{data/salvouDB}). \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Princípios da arquitetura aplicados no código}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Injeção de dependência / Inversão de controle:} os controllers não
+        criam os repositórios manualmente; o Spring injeta as dependências via
+        \code{@Autowired}, reduzindo o acoplamento entre as camadas.
+  \item \textbf{Camada de persistência abstraída:} os repositórios são interfaces que
+        estendem \code{JpaRepository}. Não há SQL manual --- o Spring Data gera o CRUD
+        e as consultas a partir do nome dos métodos (ex.: \code{existsByCpf},
+        \code{findByConcluidoFalse}, \code{findByDataAgendaBetween}).
+  \item \textbf{Separação View/Controller:} os controllers não montam HTML; preparam
+        os dados (via \code{Model}) e delegam a renderização ao Thymeleaf. Assim,
+        mudar a tela não afeta a lógica e vice-versa.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+\section{Modelagem de classes e como foi implementada}
+
+As classes de domínio definidas na modelagem (diagrama de classes) foram
+implementadas como \textbf{entidades JPA} (anotação \code{@Entity}), em que cada
+classe vira uma tabela e cada atributo vira uma coluna. Os relacionamentos do
+diagrama foram traduzidos em anotações de mapeamento.
+
+\subsection{Entidades}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Cliente} --- \code{id}, \code{nome}, \code{telefone}, \code{cpf}
+        (único), \code{endereco}, \code{email}, \code{dataNascimento} e a lista de
+        \code{vendas}.
+  \item \textbf{Venda} --- \code{id}, \code{cliente}, lista de \code{servicos},
+        \code{valorTotal}, \code{dataVenda}.
+  \item \textbf{Servico} --- \code{id}, \code{nome}, \code{preco}.
+  \item \textbf{Agenda} --- \code{id}, \code{descricao}, \code{tipo},
+        \code{dataAgenda}, \code{concluido}, \code{observacoes} e um \code{cliente}
+        (opcional).
+\end{itemize}
+
+\subsection{Relacionamentos (do diagrama para o código)}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{X l X}
+\toprule
+\textbf{Relacionamento} & \textbf{Cardinalidade} & \textbf{Implementação} \\
+\midrule
+Cliente possui Vendas & 1 --- N & \code{@OneToMany} em \code{Cliente.vendas} /
+\code{@ManyToOne} em \code{Venda.cliente} \\
+Venda contém Serviços & N --- N & \code{@ManyToMany} em \code{Venda.servicos} com
+tabela de junção \code{venda\_servicos} \\
+Agenda referencia Cliente & N --- 1 (opcional) & \code{@ManyToOne} em
+\code{Agenda.cliente} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Esses relacionamentos são exatamente os que o sistema usa em tempo de execução: ao
+registrar uma venda, o vínculo \code{Venda~$\rightarrow$~Cliente} e
+\code{Venda~$\rightarrow$~Serviços} é criado e gravado; ao abrir o perfil, a relação
+\code{Cliente~$\rightarrow$~Vendas} é percorrida para somar o total gasto
+(\code{getValorTotalVendas()}).
+
+% ----------------------------------------------------------------------
+\section{Rastreabilidade: Requisito $\rightarrow$ Classe $\rightarrow$ Arquitetura $\rightarrow$ Implementação}
+
+A tabela mostra que a implementação mantém a relação entre o que foi pedido
+(histórias de usuário), a modelagem (classes) e a arquitetura (camadas):
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{X l l}
+\toprule
+\textbf{Requisito / História} & \textbf{Modelo} & \textbf{Controle} \\
+\midrule
+Cadastrar/listar clientes; impedir CPF repetido & \code{Cliente} & \code{ClienteController} \\
+Registrar venda e calcular o total & \code{Venda}, \code{Servico} & \code{VendaController} \\
+Ver o total gasto por um cliente & \code{Cliente}, \code{Venda} & \code{ClienteController} \\
+Organizar compromissos/agenda & \code{Agenda} & \code{AgendaController} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ----------------------------------------------------------------------
+\section{Coerência entre arquitetura, modelagem e implementação}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{A arquitetura foi respeitada:} cada requisição segue o caminho
+        previsto \emph{View $\rightarrow$ Controller $\rightarrow$ Repository
+        $\rightarrow$ Banco $\rightarrow$ View}, sem misturar responsabilidades
+        (a tela não acessa o banco diretamente; quem faz isso é o repositório,
+        chamado pelo controller).
+  \item \textbf{A modelagem foi seguida fielmente:} classes, atributos e
+        relacionamentos do diagrama correspondem 1:1 às entidades JPA implementadas.
+  \item \textbf{O escopo do MVP foi atendido:} as funcionalidades centrais (clientes,
+        vendas e agenda) estão implementadas e funcionando de ponta a ponta, com
+        persistência real.
+\end{itemize}
+
+Em resumo, a implementação não é um código solto: ela é a \textbf{materialização
+direta} da modelagem de classes dentro da arquitetura MVC em camadas que o grupo
+definiu nas sprints anteriores.
+
+\end{document}

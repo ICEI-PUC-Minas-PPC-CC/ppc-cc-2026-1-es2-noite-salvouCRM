@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvou - Clientes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef2fb;
+            --surface: #ffffff;
+            --primary: #0d6efd;
+            --secondary: #495057;
+            --success: #198754;
+            --border: rgba(13,110,253,0.12);
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--secondary);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .table-card { border-radius: 15px; overflow: hidden; background: var(--surface); }
+        .nome-link { text-decoration: none; color: var(--primary); }
+        .nome-link:hover { text-decoration: underline; }
+        .text-primary { color: var(--primary) !important; }
+        .btn-success { background-color: var(--success); border-color: var(--success); }
+        .btn-success:hover { background-color: #157347; border-color: #146c43; }
+        .btn-primary { background-color: var(--primary); border-color: var(--primary); }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Gestão de Clientes</h2>
+        <div class="d-flex gap-2">
+            <a href="/venda" class="btn btn-success shadow-sm">Nova Venda</a>
+            <a href="/novo" class="btn btn-primary shadow-sm">Novo Cliente</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm table-card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-primary">
+                <tr>
+                    <th>#ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Total Acumulado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td class="fw-bold" th:text="${cliente.id}">1</td>
+                    <td>
+                        <a th:href="@{/clientes/perfil/{id}(id=${cliente.id})}"
+                           class="nome-link" th:text="${cliente.nome}">Gabriel Ramos</a>
+                    </td>
+                    <td th:text="${cliente.cpf}">000.000.000-00</td>
+                    <td th:text="${cliente.telefone}">(35) 99999-0000</td>
+                    <td class="text-success fw-bold"
+                        th:text="'R$ ' + ${#numbers.formatDecimal(cliente.valorTotalVendas, 1, 'POINT', 2, 'COMMA')}">
+                        R$ 0,00
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

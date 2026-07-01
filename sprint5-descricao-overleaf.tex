@@ -1,0 +1,165 @@
+\documentclass[12pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Pacotes
+% ----------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% ----------------------------------------------------------------------
+% Aparência
+% ----------------------------------------------------------------------
+\definecolor{azul}{RGB}{13,110,253}
+\titleformat{\section}{\large\bfseries\color{azul}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  columns=fullflexible,
+  showstringspaces=false
+}
+
+% ----------------------------------------------------------------------
+% Capa / Título
+% ----------------------------------------------------------------------
+\title{\textbf{Sprint 5 --- Descrição do MVP Implementado}\\[4pt]
+\large Salvou CRM}
+\author{Engenharia de Software II}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{flushleft}
+\textbf{Projeto:} Salvou CRM \\
+\textbf{Repositório:} \url{https://github.com/llagogabriel/salvou-crm} \\
+\textbf{Branch:} \texttt{Verificações}
+\end{flushleft}
+
+\hrulefill
+
+% ----------------------------------------------------------------------
+\section{Visão geral do MVP}
+
+O \textbf{Salvou CRM} é um sistema de gestão de relacionamento com clientes voltado a
+profissionais e pequenos negócios de serviços (ex.: manicure, cabeleireiro, estética).
+O objetivo do MVP é centralizar, em uma única aplicação web, o \textbf{cadastro de
+clientes}, o \textbf{registro de vendas/serviços} e o \textbf{controle de uma agenda de
+compromissos}, substituindo controles manuais (caderno, planilha) por uma ferramenta
+organizada e com dados persistidos.
+
+A aplicação foi construída em \textbf{Java~17} com o framework \textbf{Spring Boot~3.2},
+seguindo o padrão \textbf{MVC (Model--View--Controller)}. A interface é renderizada no
+servidor com \textbf{Thymeleaf} e \textbf{Bootstrap~5}, e os dados são persistidos em um
+banco \textbf{H2 em arquivo} por meio do \textbf{Spring Data JPA / Hibernate}, garantindo
+que as informações permaneçam salvas entre as execuções.
+
+% ----------------------------------------------------------------------
+\section{Funcionalidades implementadas}
+
+\subsection{Módulo de Clientes}
+\begin{itemize}[leftmargin=*]
+  \item Cadastro de cliente com nome, telefone, CPF, endereço, e-mail e data de nascimento.
+  \item \textbf{Regra de negócio:} não permite CPF duplicado (verificação via
+        \texttt{existsByCpf}), exibindo mensagem de erro ao usuário.
+  \item Listagem de todos os clientes cadastrados.
+  \item Perfil do cliente, incluindo o cálculo do \textbf{valor total já gasto}
+        (somatório de todas as vendas --- \texttt{getValorTotalVendas()}).
+  \item Cadastro rápido de cliente via requisição assíncrona (endpoint REST
+        \texttt{POST /clientes/rapido}), usado dentro da tela de vendas.
+\end{itemize}
+
+\subsection{Módulo de Vendas e Serviços}
+\begin{itemize}[leftmargin=*]
+  \item Registro de venda vinculando um \textbf{cliente} a um ou mais \textbf{serviços}.
+  \item \textbf{Cálculo automático do valor total} a partir dos preços dos serviços
+        (o servidor reconsulta os preços reais no banco, evitando manipulação pelo cliente).
+  \item Data/hora da venda registrada automaticamente.
+  \item Cadastro rápido de serviço (\texttt{POST /servicos/rapido}).
+  \item Relacionamentos persistidos: \textbf{Cliente 1--N Venda} e \textbf{Venda N--N Serviço}.
+\end{itemize}
+
+\subsection{Módulo de Agenda}
+\begin{itemize}[leftmargin=*]
+  \item Cadastro de compromissos (atendimento, lembrete, pagamento, etc.), com descrição,
+        tipo, data, observações e vínculo \textbf{opcional} a um cliente.
+  \item Conclusão e exclusão de compromissos.
+  \item Consultas filtradas: itens não concluídos e itens dos \textbf{próximos 7 dias}
+        (\texttt{findByConcluidoFalse}, \texttt{findByDataAgendaBetween}).
+\end{itemize}
+
+\subsection{Tela inicial (Home)}
+\begin{itemize}[leftmargin=*]
+  \item Página de entrada (\texttt{/}) com menu de navegação para os módulos do sistema.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+\section{Fluxo completo: entrada $\rightarrow$ processamento $\rightarrow$ saída}
+
+O sistema entrega o fluxo de ponta a ponta exigido pelo MVP. Exemplo do
+\textbf{registro de uma venda}:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Entrada:} o usuário acessa \texttt{/venda}, seleciona o cliente e os
+        serviços no formulário (interface Thymeleaf/Bootstrap).
+  \item \textbf{Processamento:} os dados são enviados ao \texttt{VendaController}, que busca
+        o cliente e os serviços reais no banco, \textbf{calcula o valor total}, cria o
+        vínculo entre as entidades e registra a data da venda.
+  \item \textbf{Saída/Persistência:} a venda é salva no banco H2 via \texttt{VendaRepository},
+        e o sistema retorna a confirmação. O valor passa a compor o \textbf{total gasto}
+        exibido no perfil do cliente.
+\end{enumerate}
+
+O mesmo padrão (formulário $\rightarrow$ controller $\rightarrow$ repositório $\rightarrow$
+banco $\rightarrow$ tela) se repete nos módulos de Clientes e Agenda, garantindo um ciclo
+completo e coerente.
+
+% ----------------------------------------------------------------------
+\section{Tecnologias utilizadas}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Camada} & \textbf{Tecnologia} \\
+\midrule
+Linguagem              & Java 17 \\
+Framework              & Spring Boot 3.2 \\
+Web / Controllers      & Spring MVC \\
+Visualização (View)    & Thymeleaf + Bootstrap 5 \\
+Persistência           & Spring Data JPA + Hibernate \\
+Banco de dados         & H2 (modo arquivo) \\
+Build / Dependências   & Maven \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ----------------------------------------------------------------------
+\section{Como executar (para a demonstração)}
+
+\begin{lstlisting}
+# Na raiz do projeto (branch Verificacoes)
+mvn spring-boot:run
+
+# Acessar no navegador:
+http://localhost:8080/
+\end{lstlisting}
+
+O banco H2 fica salvo em \texttt{./data/salvouDB}, preservando os dados cadastrados.
+O console do banco está disponível em \texttt{http://localhost:8080/h2-console}
+(caso seja necessário para evidência).
+
+\end{document}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvou - Nova Venda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef2fb;
+            --surface: #ffffff;
+            --primary: #0d6efd;
+            --secondary: #495057;
+            --success: #198754;
+            --border: rgba(13,110,253,0.12);
+        }
+        body {
+            background-color: var(--bg);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--secondary);
+        }
+        .card { border-radius: 15px; border: none; background: var(--surface); }
+        .input-group-text { background-color: #e9ecef; }
+        .text-primary { color: var(--primary) !important; }
+        .btn-primary { background-color: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+        .btn-success { background-color: var(--success); border-color: var(--success); }
+        .btn-success:hover { background-color: #157347; border-color: #146c43; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                    <h2 class="text-primary fw-bold m-0">Nova Venda</h2>
+                    <div class="d-flex gap-2">
+                        <a href="/clientes" class="btn btn-outline-secondary btn-sm shadow-sm d-flex align-items-center">
+                            Lista de Clientes
+                        </a>
+                        <a href="/clientes" class="btn btn-outline-secondary btn-sm">Voltar</a>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Cliente</label>
+                    <div id="areaCliente">
+                        <select class="form-select form-select-lg mb-2" id="selectCliente">
+                            <option value="">Selecione um cliente...</option>
+                            <option th:each="c : ${clientes}" th:value="${c.id}" th:text="${c.nome}"></option>
+                        </select>
+                        <button class="btn btn-outline-primary btn-sm w-100 shadow-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalCliente">
+                            + Adicionar Novo Cliente
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Itens da Venda</label>
+                    <div id="listaServicos" class="mb-3"></div>
+                    <button class="btn btn-outline-primary btn-sm w-100 shadow-sm" onclick="adicionarLinhaServico()">
+                        + Adicionar Produto ou Serviço
+                    </button>
+                </div>
+
+                <hr>
+
+                <button class="btn btn-success btn-lg w-100 fw-bold shadow mt-2" onclick="finalizarVenda()">
+                    FINALIZAR VENDA
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCliente" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5>Novo Cliente Rápido</h5></div>
+            <div class="modal-body">
+                <input type="text" id="nomeRapido" class="form-control mb-2" placeholder="Nome" maxlength="50">
+
+                <input type="text" id="cpfRapido" class="form-control mb-2" placeholder="000.000.000-00" maxlength="14">
+
+                <input type="text" id="telRapido" class="form-control" placeholder="(00) 00000-0000" maxlength="15">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="salvarClienteRapido()">Salvar e Selecionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalServico" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5>Novo Serviço/Produto</h5></div>
+            <div class="modal-body">
+                <input type="text" id="nomeServico" class="form-control mb-2" placeholder="Nome do Serviço">
+                <input type="number" id="precoServico" class="form-control" placeholder="Preço">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cadastrarServicoRapido()">Salvar e Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    const servicosDisponiveis = /*[[${servicos}]]*/ [];
+    // Função para aplicar as máscaras dinamicamente
+    const inputTelefone = document.getElementById('telRapido');
+    const inputCPF = document.getElementById('cpfRapido');
+
+    inputTelefone.addEventListener('input', (e) => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+    inputCPF.addEventListener('input', (e) => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+        e.target.value = x[1] + (x[2] ? '.' + x[2] : '') + (x[3] ? '.' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+    });
+
+    function adicionarLinhaServico() {
+        const container = document.getElementById('listaServicos');
+        const div = document.createElement('div');
+        div.className = 'input-group mb-2 linha-servico shadow-sm';
+
+        let options = '<option value="">Escolha um item...</option>';
+        servicosDisponiveis.forEach(s => {
+            options += `<option value="${s.id}">${s.nome} - R$ ${s.preco}</option>`;
+        });
+
+        div.innerHTML = `
+            <select class="form-select select-servico-id">${options}</select>
+            <button class="btn btn-outline-danger" onclick="this.parentElement.remove()">✕</button>
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalServico">+</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function salvarClienteRapido() {
+        const nome = document.getElementById('nomeRapido').value;
+        const tel = document.getElementById('telRapido').value;
+        const cpf = document.getElementById('cpfRapido').value;
+
+        fetch('/clientes/rapido', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome: nome, telefone: tel, cpf: cpf })
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    const erro = await response.text();
+                    throw new Error(erro);
+                }
+                return response.json();
+            })
+            .then(cliente => {
+                console.log("Cliente recebido:", cliente); // Para conferir no F12
+
+                const select = document.getElementById('selectCliente');
+
+                // Criamos uma nova opção para o select
+                const novaOpcao = new Option(cliente.nome, cliente.id);
+                select.add(novaOpcao);
+
+                // Forçamos a seleção do novo cliente
+                select.value = cliente.id;
+
+                // Fecha o modal
+                const modalElement = document.getElementById('modalCliente');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) modalInstance.hide();
+
+                // Limpa os campos
+                document.getElementById('nomeRapido').value = '';
+                document.getElementById('telRapido').value = '';
+                document.getElementById('cpfRapido').value = '';
+
+                alert("Cliente cadastrado e selecionado!");
+            })
+            .catch(err => {
+                console.error(err);
+                alert(err.message);
+            });
+    }
+
+    function cadastrarServicoRapido() {
+        const nome = document.getElementById('nomeServico').value;
+        const preco = document.getElementById('precoServico').value;
+        fetch('/servicos/rapido', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome: nome, preco: preco })
+        })
+            .then(response => response.json())
+            .then(servico => {
+                servicosDisponiveis.push(servico);
+                document.querySelectorAll('.select-servico-id').forEach(s => {
+                    s.add(new Option(servico.nome + ' - R$ ' + servico.preco, servico.id));
+                });
+                bootstrap.Modal.getInstance(document.getElementById('modalServico')).hide();
+            });
+    }
+    function finalizarVenda() {
+        const clienteId = document.getElementById('selectCliente').value;
+        const selectsServicos = document.querySelectorAll('.select-servico-id');
+
+        // Captura os IDs de todos os serviços selecionados nas linhas
+        const servicosIds = Array.from(selectsServicos)
+            .map(s => s.value)
+            .filter(id => id !== ""); // Remove campos vazios
+
+        if (!clienteId) {
+            alert("Por favor, selecione um cliente.");
+            return;
+        }
+        if (servicosIds.length === 0) {
+            alert("Adicione pelo menos um produto ou serviço.");
+            return;
+        }
+
+        // Monta o objeto exatamente como a classe Venda espera no Java
+        const dadosVenda = {
+            cliente: { id: parseInt(clienteId) },
+            servicos: servicosIds.map(id => ({ id: parseInt(id) }))
+        };
+
+        fetch('/venda/finalizar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosVenda)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Venda realizada com sucesso!");
+                    // Limpa a tela para a próxima venda
+                    document.getElementById('listaServicos').innerHTML = '';
+                    document.getElementById('selectCliente').value = '';
+                } else {
+                    alert("Erro ao processar venda no servidor.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro na requisição:", error);
+                alert("Erro de conexão.");
+            });
+    }
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.kotlin
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Database e Dados Locais ###
+# Bloqueia a pasta de dados e arquivos do banco H2
+/data/
+*.mv.db
+*.trace.db
+
+### Java / Maven ###
+# Bloqueia a pasta de compilação (binários)
+target/
+*.class
+
+### Logs ###
+# Bloqueia arquivos de log de compilação que aparecem na sua árvore
+*.log
+compile_output.log
+
+### IntelliJ (Melhoria) ###
+# Bloqueia a pasta .idea e o arquivo .iml que está na sua raiz
+.idea/
+*.iml
